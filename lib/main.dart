@@ -64,6 +64,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
                     setState(() {
                       tasks.add(Task(_taskController.text, false, _selectedPriority));
                       _taskController.clear();
+                      _sortTasksByPriority(); // Sort tasks by priority
                     });
                   },
                   child: Text('Add Task'),
@@ -93,6 +94,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
                         onPressed: () {
                           setState(() {
                             tasks.removeAt(index);
+                            _sortTasksByPriority(); // Re-sort after deletion
                           });
                         },
                       ),
@@ -106,13 +108,32 @@ class _TaskListScreenState extends State<TaskListScreen> {
       ),
     );
   }
+
+  // Sorting tasks by priority: High > Medium > Low
+  void _sortTasksByPriority() {
+    tasks.sort((a, b) {
+      return _getPriorityValue(b.priority).compareTo(_getPriorityValue(a.priority));
+    });
+  }
+
+  // Helper function to assign a numerical value to priorities
+  int _getPriorityValue(String priority) {
+    switch (priority) {
+      case 'High':
+        return 3;
+      case 'Medium':
+        return 2;
+      case 'Low':
+      default:
+        return 1;
+    }
+  }
 }
 
-// Basic Task Model
 class Task {
   String name;
   bool isCompleted;
-  String priority; // Task priority: Low, Medium, High
+  String priority;
 
   Task(this.name, this.isCompleted, this.priority);
 }
