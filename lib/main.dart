@@ -9,6 +9,9 @@ class TaskManagerApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Task Manager',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
       home: TaskListScreen(),
     );
   }
@@ -22,6 +25,7 @@ class TaskListScreen extends StatefulWidget {
 class _TaskListScreenState extends State<TaskListScreen> {
   // List to store tasks
   List<Task> tasks = [];
+  final TextEditingController _taskController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +35,28 @@ class _TaskListScreenState extends State<TaskListScreen> {
       ),
       body: Column(
         children: [
-          // Task input and add button will be added here
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _taskController,
+                    decoration: InputDecoration(hintText: 'Enter task name'),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      tasks.add(Task(_taskController.text, false));
+                      _taskController.clear(); // Clear the input field
+                    });
+                  },
+                  child: Text('Add Task'),
+                ),
+              ],
+            ),
+          ),
           Expanded(
             child: ListView.builder(
               itemCount: tasks.length,
