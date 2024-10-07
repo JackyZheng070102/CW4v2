@@ -63,13 +63,28 @@ class _TaskListScreenState extends State<TaskListScreen> {
               itemBuilder: (context, index) {
                 return ListTile(
                   title: Text(tasks[index].name),
-                  trailing: Checkbox(
-                    value: tasks[index].isCompleted,
-                    onChanged: (value) {
-                      setState(() {
-                        tasks[index].isCompleted = value!;
-                      });
-                    },
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // Checkbox to mark task as completed/incomplete
+                      Checkbox(
+                        value: tasks[index].isCompleted,
+                        onChanged: (value) {
+                          setState(() {
+                            tasks[index].isCompleted = value!;
+                          });
+                        },
+                      ),
+                      // Delete button to remove task from the list
+                      IconButton(
+                        icon: Icon(Icons.delete),
+                        onPressed: () {
+                          setState(() {
+                            tasks.removeAt(index); // Remove task from the list
+                          });
+                        },
+                      ),
+                    ],
                   ),
                 );
               },
