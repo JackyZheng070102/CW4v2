@@ -23,7 +23,6 @@ class TaskListScreen extends StatefulWidget {
 }
 
 class _TaskListScreenState extends State<TaskListScreen> {
-  // List to store tasks
   List<Task> tasks = [];
   final TextEditingController _taskController = TextEditingController();
   String _selectedPriority = 'Low'; // Default priority
@@ -46,7 +45,6 @@ class _TaskListScreenState extends State<TaskListScreen> {
                     decoration: InputDecoration(hintText: 'Enter task name'),
                   ),
                 ),
-                // Dropdown for selecting task priority
                 DropdownButton<String>(
                   value: _selectedPriority,
                   items: ['Low', 'Medium', 'High'].map((String priority) {
@@ -65,7 +63,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
                   onPressed: () {
                     setState(() {
                       tasks.add(Task(_taskController.text, false, _selectedPriority));
-                      _taskController.clear(); // Clear the input field
+                      _taskController.clear();
                     });
                   },
                   child: Text('Add Task'),
@@ -78,12 +76,10 @@ class _TaskListScreenState extends State<TaskListScreen> {
               itemCount: tasks.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  // Display task name along with its priority
                   title: Text('${tasks[index].name} (${tasks[index].priority})'),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // Checkbox to mark task as completed/incomplete
                       Checkbox(
                         value: tasks[index].isCompleted,
                         onChanged: (value) {
@@ -92,12 +88,11 @@ class _TaskListScreenState extends State<TaskListScreen> {
                           });
                         },
                       ),
-                      // Delete button to remove task from the list
                       IconButton(
                         icon: Icon(Icons.delete),
                         onPressed: () {
                           setState(() {
-                            tasks.removeAt(index); // Remove task from the list
+                            tasks.removeAt(index);
                           });
                         },
                       ),
@@ -113,7 +108,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
   }
 }
 
-// Task Model with Priority
+// Basic Task Model
 class Task {
   String name;
   bool isCompleted;
